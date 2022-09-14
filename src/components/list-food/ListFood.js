@@ -1,6 +1,7 @@
 import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi";
 
-export default function ListFood(){
+export default function ListFood({food}){
+
     return(
         <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
             <div className="flex flex-col p-12 h-full">
@@ -27,33 +28,37 @@ export default function ListFood(){
                                     </th>
                                 </tr>
                                 </thead>
-                                <tbody className="text-sm divide-y divide-gray-100">
-                                <tr>
-                                    <td className="p-2 whitespace-nowrap">
-                                        <div className="text-lg text-center">Salchipapa</div>
-                                    </td>
-                                    <td className="p-2 whitespace-nowrap">
-                                        <div className="text-lg text-center">1.50</div>
-                                    </td>
-                                    <td className="p-2 whitespace-nowrap">
-                                        <div className="text-lg text-center">Disponible</div>
-                                    </td>
-                                    <td className="p-2 whitespace-nowrap">
-                                        <div className="text-lg text-center">Normal</div>
-                                    </td>
-                                    <td className="text-lg text-center">
-                                        <button
-                                            className="bg-blue-500 hover:bg-blue-700 mx-2 text-white font-bold py-1 px-2 border border-blue-500 rounded text-2xl">
-                                            <HiOutlinePencilAlt/>
+                                {food.map(value=>{
+                                    return(
+                                        <tbody key={value.id} className="text-sm divide-y divide-gray-100">
+                                        <tr>
+                                            <td className="p-2 whitespace-nowrap">
+                                                <div className="text-lg text-center">{value.name}</div>
+                                            </td>
+                                            <td className="p-2 whitespace-nowrap">
+                                                <div className="text-lg text-center">{value.cost}</div>
+                                            </td>
+                                            <td className="p-2 whitespace-nowrap">
+                                                <div className="text-lg text-center">Disponible</div>
+                                            </td>
+                                            <td className="p-2 whitespace-nowrap">
+                                                <div className="text-lg text-center">Normal</div>
+                                            </td>
+                                            <td className="text-lg text-center">
+                                                <button
+                                                    className="bg-blue-500 hover:bg-blue-700 mx-2 text-white font-bold py-1 px-2 border border-blue-500 rounded text-2xl">
+                                                    <HiOutlinePencilAlt/>
 
-                                        </button>
-                                        <button
-                                            className="bg-red-500 hover:bg-red-700 mx-2 text-white font-bold py-1 px-2 border border-red-500 rounded text-2xl">
-                                            <HiOutlineTrash/>
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
+                                                </button>
+                                                <button
+                                                    className="bg-red-500 hover:bg-red-700 mx-2 text-white font-bold py-1 px-2 border border-red-500 rounded text-2xl">
+                                                    <HiOutlineTrash/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    )
+                                })}
                             </table>
                         </div>
                     </div>

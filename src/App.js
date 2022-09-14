@@ -6,6 +6,7 @@ import Home from "./pages/user/home/Home";
 import Food from "./pages/admin/food/Food";
 import Order from "./pages/admin/order/Order";
 import User from "./pages/admin/user/User";
+import FormOrder from "./components/form-order/FormOrder";
 
 
 function App() {
@@ -13,8 +14,10 @@ function App() {
     <div className="App">
         <NavBar></NavBar>
         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/foods" element={<Food />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/home/:id" element={<FormOrder />} />
+
+            <Route path="/foods-list" element={<Food />} />
             <Route path="/orders" element={<Order />} />
             <Route path="/users" element={<User />} />
         </Routes>
