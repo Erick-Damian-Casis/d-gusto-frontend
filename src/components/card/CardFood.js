@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import FormOrder from "./form-order/FormOrder";
 
-export default function CardFood(){
-    const [foods,setFoods]=useState([]);
+export default function CardFood({handleCatchId}){
+    const [foods,setFoods] = useState([]);
 
     useEffect(()=>{
         getFoods().catch(error=>console.log(error));
@@ -15,12 +16,10 @@ export default function CardFood(){
         setFoods(data.data);
     }
 
-
     return(
         <div className="mt-6 m-auto w-2/3 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
             {foods.map((value)=>(
-                <Link to={`/home/${value.id}`}>
-                    <div key={value.id} className="group relative">
+                    <div key={value.id} className="group relative" onClick={()=>handleCatchId(value.id)}>
                         <div
                             className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
                             <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
@@ -40,7 +39,6 @@ export default function CardFood(){
                             <p className="text-sm font-medium text-gray-900">${value.cost}</p>
                         </div>
                     </div>
-                </Link>
             ))}
         </div>
     );
