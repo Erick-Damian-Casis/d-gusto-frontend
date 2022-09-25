@@ -1,5 +1,5 @@
 import CardFood from "../../../components/card/CardFood";
-import FormOrder from "../../../components/card/form-order/FormOrder";
+import FormOrder from "../../../components/order/form-order/FormOrder";
 import {useState} from "react";
 
 export default function Home(){

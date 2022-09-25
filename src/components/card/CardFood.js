@@ -1,6 +1,4 @@
 import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import FormOrder from "./form-order/FormOrder";
 
 export default function CardFood({handleCatchId}){
     const [foods,setFoods] = useState([]);

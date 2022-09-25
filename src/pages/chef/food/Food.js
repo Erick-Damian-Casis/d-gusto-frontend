@@ -1,4 +1,4 @@
-import ListFood from "../../../components/list-food/ListFood";
+import ListFood from "../../../components/food/list-food/ListFood";
 import {useEffect, useState} from "react";
 
 export default function Food(){
