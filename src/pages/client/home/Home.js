@@ -4,20 +4,20 @@ import {useState} from "react";
 
 export default function Home(){
     const [foodId, setFoodId] = useState();
-    const [modalForm, setModalForm] =useState(false);
+    const [isOpen, setIsOpen] = useState(false)
+
+    function closeModal() {
+        setIsOpen(false)
+    }
 
     const handleCatchId =(id)=>{
         setFoodId(id);
-        setModalForm(!modalForm)
+        setIsOpen(true)
         console.log(id)
-    }
-
-    const handleCloseModal=()=>{
-        setModalForm(!modalForm)
     }
 
     return(<div>
         <CardFood handleCatchId={handleCatchId} ></CardFood>
-        {modalForm && <FormOrder foodId={foodId} changeModal={handleCloseModal} ></FormOrder>}
+        {isOpen && <FormOrder foodId={foodId} closeModal={closeModal} isOpen={isOpen} ></FormOrder>}
     </div>)
 }
