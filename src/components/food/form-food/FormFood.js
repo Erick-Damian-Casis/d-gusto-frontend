@@ -1,25 +1,33 @@
 import {useForm} from "react-hook-form";
 import { Dialog, Transition} from "@headlessui/react";
 import { Fragment } from 'react'
+import axios from "axios";
 
-export default function FormFood({closeModal,isOpen}){
+export default function FormFood({closeModal,isOpen, handleDialogForm}){
     const {register ,formState:{errors} ,watch ,handleSubmit}= useForm({
         defaultValues:{
             state:false,
             special:false,
         }
     });
-    const onSubmit=(data)=>{
-        fetch('http://127.0.0.1:8000/api/v1/private/foods',{
-            method:'POST',
-            body:JSON.stringify(data),
-            headers:{
-                "Content-Type":"application/json",
-                "Accept":"application/json"
-            }
-        }).then(response=>response.json())
-            .then(console.log)
-            .catch(error=>console.log(error));
+
+    const onSubmit= async (data) =>{
+        const formData = new FormData();
+
+        formData.append('image', data.image)
+
+        await axios.post('http://127.0.0.1:8000/api/v1/private/foods',formData,
+            {headers: {
+                'Content-Type': 'multipart/form-data'
+            }})
+            .then(response=>{
+                console.log(response.data)
+                handleDialogForm();
+            }).catch(
+                error=>{
+                    console.log(error)
+                }
+            )
     }
 
 
@@ -88,7 +96,7 @@ export default function FormFood({closeModal,isOpen}){
                                         {/*    type="text"/>*/}
                                         <input type="file"
                                                className="pt-5"
-                                               {...register('url')}
+                                               {...register('image')}
                                         />
                                         <div className="mt-6">
                                             <button type="submit"

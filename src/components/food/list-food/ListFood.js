@@ -88,7 +88,7 @@ export default function ListFood({food}){
                     </div>
                 </div>
             </div>
-            {isOpen && <FormFood closeModal={closeModal} isOpen={isOpen} ></FormFood>}
+            {isOpen && <FormFood handleDialogForm={handleDialogForm} closeModal={closeModal} isOpen={isOpen} ></FormFood>}
         </section>
     )
 }
