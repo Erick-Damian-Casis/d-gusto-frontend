@@ -9,7 +9,7 @@ export default function ListFood({food}){
         setIsOpen(false)
     }
 
-    const handleDialogForm=()=>{
+    const handleModalForm=()=>{
         setIsOpen(true)
     }
 
@@ -24,7 +24,7 @@ export default function ListFood({food}){
         <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
             <div className="flex flex-col p-12 h-full">
                 <div className="w-full max-w-7xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-                    <button onClick={handleDialogForm}
+                    <button onClick={handleModalForm}
                         className="bg-blue-200 p-2 mt-4 ml-4 rounded-md hover:bg-blue-300 hover:text-white transition ease-in duration-200"
                     >AGREGAR
                     </button>
@@ -88,7 +88,7 @@ export default function ListFood({food}){
                     </div>
                 </div>
             </div>
-            {isOpen && <FormFood handleDialogForm={handleDialogForm} closeModal={closeModal} isOpen={isOpen} ></FormFood>}
+            {isOpen && <FormFood closeModal={closeModal} isOpen={isOpen} ></FormFood>}
         </section>
     )
 }
