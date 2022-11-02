@@ -1,9 +1,38 @@
 import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi";
 import FormFood from "../form-food/FormFood";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
-export default function ListFood({food}){
-    const [isOpen, setIsOpen] = useState(false)
+export default function ListFood(){
+    const [isOpen, setIsOpen] = useState(false);
+    const [food,setFood]=useState([]);
+
+    useEffect(()=>{
+        getFoods();
+    },[])
+
+    const getFoods= () =>{
+      axios('http://127.0.0.1:8000/api/v1/private/foods')
+          .then(response=>{
+              setFood(response.data.data);
+          })
+    }
+
+    const deleteFood=(id)=>{
+        axios.delete('http://127.0.0.1:8000/api/v1/private/foods/'+id)
+            .then(response=>{
+                    console.log(response.data)
+                    getFoods();
+                }
+            ).catch(error => {
+            console.log(error);
+        });
+
+    }
+
+    const updateFood=(id)=>{
+        console.log(id);
+    }
 
     function closeModal() {
         setIsOpen(false)
@@ -11,13 +40,6 @@ export default function ListFood({food}){
 
     const handleModalForm=()=>{
         setIsOpen(true)
-    }
-
-    const deleteFood=(id)=>{
-        console.log(id);
-    }
-    const updateFood=(id)=>{
-        console.log(id);
     }
 
     return(
@@ -50,45 +72,51 @@ export default function ListFood({food}){
                                     </th>
                                 </tr>
                                 </thead>
-                                {food.map(value=>{
-                                    return(
-                                        <tbody key={value.id} className="text-sm divide-y divide-gray-100">
-                                        <tr>
-                                            <td className="p-2 whitespace-nowrap">
-                                                <div className="text-lg text-center">{value.name}</div>
-                                            </td>
-                                            <td className="p-2 whitespace-nowrap">
-                                                <div className="text-lg text-center">{value.cost}</div>
-                                            </td>
-                                            <td className="p-2 whitespace-nowrap">
-                                                <div className="text-lg text-center">Disponible</div>
-                                            </td>
-                                            <td className="p-2 whitespace-nowrap">
-                                                <div className="text-lg text-center">Normal</div>
-                                            </td>
-                                            <td className="text-lg text-center">
-                                                <button
-                                                    onClick={()=>updateFood(value.id)}
-                                                    className="bg-blue-500 hover:bg-blue-700 mx-2 text-white font-bold py-1 px-2 border border-blue-500 rounded text-2xl">
-                                                    <HiOutlinePencilAlt/>
+                                <tbody className="text-sm divide-y divide-gray-100">
+                                {food.length>0?(
+                                    food.map(value=>{
+                                            return(
+                                                <tr key={value.id}>
+                                                    <td className="p-2 whitespace-nowrap">
+                                                        <div className="text-lg text-center">{value.name}</div>
+                                                    </td>
+                                                    <td className="p-2 whitespace-nowrap">
+                                                        <div className="text-lg text-center">{value.cost}</div>
+                                                    </td>
+                                                    <td className="p-2 whitespace-nowrap">
+                                                        <div className="text-lg text-center">Disponible</div>
+                                                    </td>
+                                                    <td className="p-2 whitespace-nowrap">
+                                                        <div className="text-lg text-center">Normal</div>
+                                                    </td>
+                                                    <td className="text-lg text-center">
+                                                        <button
+                                                            onClick={()=>updateFood(value.id)}
+                                                            className="bg-blue-500 hover:bg-blue-700 mx-2 text-white font-bold py-1 px-2 border border-blue-500 rounded text-2xl">
+                                                            <HiOutlinePencilAlt/>
 
-                                                </button>
-                                                <button
-                                                    onClick={()=>deleteFood(value.id)}
-                                                    className="bg-red-500 hover:bg-red-700 mx-2 text-white font-bold py-1 px-2 border border-red-500 rounded text-2xl">
-                                                    <HiOutlineTrash/>
-                                                </button>
-                                            </td>
+                                                        </button>
+                                                        <button
+                                                            onClick={()=>deleteFood(value.id)}
+                                                            className="bg-red-500 hover:bg-red-700 mx-2 text-white font-bold py-1 px-2 border border-red-500 rounded text-2xl">
+                                                            <HiOutlineTrash/>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
+                                ):(
+                                        <tr>
+                                            <td> No se encontro comidas</td>
                                         </tr>
-                                        </tbody>
-                                    )
-                                })}
+                                )}
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-            {isOpen && <FormFood closeModal={closeModal} isOpen={isOpen} ></FormFood>}
+            {isOpen && <FormFood getFoods={getFoods} closeModal={closeModal} isOpen={isOpen} ></FormFood>}
         </section>
     )
 }

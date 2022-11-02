@@ -3,7 +3,8 @@ import { Dialog, Transition} from "@headlessui/react";
 import { Fragment } from 'react'
 import axios from "axios";
 
-export default function FormFood({closeModal,isOpen}){
+export default function FormFood({closeModal,isOpen,getFoods}){
+
     const {register ,formState:{errors} ,handleSubmit}= useForm({});
 
     const onSubmit= (data) =>{
@@ -16,13 +17,15 @@ export default function FormFood({closeModal,isOpen}){
         formData.append('special', data.special)
         formData.append('image', data.image[0])
 
-        axios.post('http://127.0.0.1:8000/api/v1/private/foods',formData).then(response => {
-            console.log(response.data)
+        axios.post('http://127.0.0.1:8000/api/v1/private/foods',formData)
+            .then(response => {
+                console.log(response.data)
+                getFoods();
         })
             .catch(error => {
                 console.log(error);
             });
-
+        closeModal();
     }
 
 
