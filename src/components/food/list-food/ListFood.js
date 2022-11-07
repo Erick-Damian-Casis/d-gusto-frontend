@@ -2,10 +2,14 @@ import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi";
 import FormFood from "../form-food/FormFood";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import FormFoodUpdate from "../form-food/FormFoodUpdate";
 
 export default function ListFood(){
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpenEdit, setIsOpenEdit] = useState(false);
     const [food,setFood]=useState([]);
+    const [currentFood,setCurrentFood]=useState({
+    });
 
     useEffect(()=>{
         getFoods();
@@ -21,8 +25,8 @@ export default function ListFood(){
     const deleteFood=(id)=>{
         axios.delete('http://127.0.0.1:8000/api/v1/private/foods/'+id)
             .then(response=>{
-                    console.log(response.data)
-                    getFoods();
+                    setFood(food.filter(value => value.id!==id))
+                    console.log(response)
                 }
             ).catch(error => {
             console.log(error);
@@ -31,15 +35,59 @@ export default function ListFood(){
     }
 
     const updateFood=(id)=>{
-        console.log(id);
+        axios('http://127.0.0.1:8000/api/v1/private/foods/'+id)
+            .then(response=>{
+                    setCurrentFood(response.data.data);
+                }
+            )
+        setIsOpenEdit(true)
     }
 
-    function closeModal() {
+    const closeModal=()=> {
         setIsOpen(false)
+    }
+    const closeModalUpdate =()=> {
+        setIsOpenEdit(false)
     }
 
     const handleModalForm=()=>{
         setIsOpen(true)
+    }
+
+    const pipeState=(state)=>{
+        if(state){
+            return(
+                <div className="text-lg text-center">
+                    DISPONIBLE
+                </div>
+            )
+        }else{
+            return(
+                <div className="text-lg text-center">
+                    NO DISPONIBLE
+                </div>
+            )
+        }
+
+
+    }
+
+    const pipeSpecial=(special)=>{
+        if(special){
+            return(
+                <div className="text-lg text-center">
+                    ESPECIAL
+                </div>
+            )
+        }else{
+            return(
+                <div className="text-lg text-center">
+                    FRECUENTE
+                </div>
+            )
+        }
+
+
     }
 
     return(
@@ -84,10 +132,10 @@ export default function ListFood(){
                                                         <div className="text-lg text-center">{value.cost}</div>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">Disponible</div>
+                                                        {pipeState(value.state)}
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">Normal</div>
+                                                        {pipeSpecial(value.special)}
                                                     </td>
                                                     <td className="text-lg text-center">
                                                         <button
@@ -117,6 +165,7 @@ export default function ListFood(){
                 </div>
             </div>
             {isOpen && <FormFood getFoods={getFoods} closeModal={closeModal} isOpen={isOpen} ></FormFood>}
+            {isOpenEdit && <FormFoodUpdate getFoods={getFoods} currentFood={currentFood} closeModalUpdate={closeModalUpdate} isOpen={isOpenEdit} ></FormFoodUpdate>}
         </section>
     )
 }

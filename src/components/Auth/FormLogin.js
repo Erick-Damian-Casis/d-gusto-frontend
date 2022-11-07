@@ -16,7 +16,7 @@ export default function FormLogin({handleIsLogin}){
                 <input className="pl-2 outline-none border-none" type="password" name="" id="" placeholder="Password" />
             </div>
             <button type="submit" className="block w-full bg-green-500 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Iniciar</button>
-            <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer" onClick={handleIsLogin}>Forgot Password ?</span>
+            <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer" onClick={handleIsLogin}>Registrate</span>
         </form>
     )
 }

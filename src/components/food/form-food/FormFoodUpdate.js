@@ -1,36 +1,47 @@
 import {useForm} from "react-hook-form";
 import { Dialog, Transition} from "@headlessui/react";
-import { Fragment } from 'react'
+import {Fragment, useEffect} from 'react'
 import axios from "axios";
 
-export default function FormFood({closeModal,isOpen,getFoods}){
+export default function FormFoodUpdate({currentFood,closeModalUpdate,isOpen,getFoods}){
 
-    const {register ,formState:{errors} ,handleSubmit}= useForm({});
+    const {register ,formState:{errors} ,handleSubmit,setValue}= useForm({
+        defaultValues: currentFood
+    });
+    setValue('name',currentFood.name);
+    setValue('cost',currentFood.cost);
+    setValue('state',currentFood.state);
+    setValue('special',currentFood.special);
+    setValue('image',currentFood.image);
+
+
+    useEffect(()=>{
+
+    },[])
 
     const onSubmit= (data) =>{
-        const formData = new FormData();
 
+        const id = currentFood.id;
+        const formData= new FormData();
         formData.append('name', data.name)
         formData.append('cost', data.cost)
         formData.append('state', data.state)
         formData.append('special', data.special)
         formData.append('image', data.image[0])
 
-        axios.post('http://127.0.0.1:8000/api/v1/private/foods',formData)
-            .then(response => {
-                console.log(response.data)
+        axios.put('http://127.0.0.1:8000/api/v1/private/foods/'+id,data)
+            .then(response=>{
+                console.log(response.data.data)
                 getFoods();
-        })
-            .catch(error => {
-                console.log(error);
-            });
-        closeModal();
+                }
+            )
+        closeModalUpdate();
     }
 
 
     return(
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={closeModal}>
+            <Dialog as="div" className="relative z-10" onClose={closeModalUpdate}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -59,7 +70,7 @@ export default function FormFood({closeModal,isOpen,getFoods}){
                                     as="h3"
                                     className="text-lg font-medium leading-6 text-gray-900"
                                 >
-                                    Nuevo Platillo
+                                    Actualizar Platillo
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <form className="flex flex-col m-4" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
@@ -120,7 +131,7 @@ export default function FormFood({closeModal,isOpen,getFoods}){
                                         <div className="mt-6">
                                             <button type="submit"
                                                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                            >Crear
+                                            >Actualizar
                                             </button>
                                         </div>
                                     </form>
