@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 
 export default function ListOrder(){
@@ -6,15 +7,19 @@ export default function ListOrder(){
     const [orders, setOrders] = useState([]);
 
     useEffect(()=>{
-        getFoods().catch(error=>console.log(error));
+        getOrders();
     },[])
 
-    const getFoods= async () =>{
-        const response = await fetch('http://127.0.0.1:8000/api/v1/private/orders')
-        const data = await response.json();
-        console.log(data.data)
-        setOrders(data.data);
+    const getOrders= () =>{
+        axios('http://127.0.0.1:8000/api/v1/private/orders')
+            .then(response=>{
+                setOrders(response.data.data)
+                console.log(response.data.data)
+            }).catch(error=>{
+                console.log(error)
+        })
     }
+
     return(
         <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
             <div className="flex flex-col p-12 h-full">
@@ -39,7 +44,7 @@ export default function ListOrder(){
                                 </tr>
                                 </thead>
                                 <tbody className="text-sm divide-y divide-gray-100">
-                                {orders.map(value => {
+                                {orders.length>0?(orders.map(value => {
                                     return(
                                         <tr key={value.id}>
                                             <td className="p-5 whitespace-nowrap">
@@ -52,17 +57,21 @@ export default function ListOrder(){
                                                 </div>
                                             </td>
                                             <td className="p-2 whitespace-nowrap">
-                                                <div className="text-lg text-center">{value.food.name}</div>
+                                                <div className="text-lg text-center">{value?.food?.name}</div>
                                             </td>
                                             <td className="p-2 whitespace-nowrap">
-                                                <div className="text-lg text-center">05-09-2022</div>
+                                                <div className="text-lg text-center">{value.orderAt}</div>
                                             </td>
                                             <td className="p-2 whitespace-nowrap">
                                                 <div className="text-lg text-center">{value.amount}</div>
                                             </td>
                                         </tr>
                                     )
-                                })}
+                                })):(
+                                    <tr>
+                                        <td> No se encontro ordenes</td>
+                                    </tr>
+                                )}
                                 </tbody>
                             </table>
                         </div>

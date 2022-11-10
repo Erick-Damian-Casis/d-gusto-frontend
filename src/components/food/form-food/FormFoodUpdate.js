@@ -1,59 +1,47 @@
 import {useForm} from "react-hook-form";
 import { Dialog, Transition} from "@headlessui/react";
-import { Fragment } from 'react'
-import {createFoods} from "../../../services/foodServices";
+import {Fragment, useEffect} from 'react'
+import axios from "axios";
 
-<<<<<<< HEAD
-export default function FormFood({isOpen, handleDialogForm,addFood}){
-    const {register ,formState:{errors} ,handleSubmit}= useForm({
-        defaultValues:{
-            state:true,
-            special:true,
-        }
+export default function FormFoodUpdate({currentFood,closeModalUpdate,isOpen,getFoods}){
+
+    const {register ,formState:{errors} ,handleSubmit,setValue}= useForm({
+        defaultValues: currentFood
     });
-=======
-export default function FormFood({closeModal,isOpen,getFoods}){
->>>>>>> 4d841a71fe87fda6bef95185b0470b6b2cd267b7
+    setValue('name',currentFood.name);
+    setValue('cost',currentFood.cost);
+    setValue('state',currentFood.state);
+    setValue('special',currentFood.special);
+    setValue('image',currentFood.image);
 
-    const {register ,formState:{errors} ,handleSubmit}= useForm({});
+
+    useEffect(()=>{
+
+    },[])
 
     const onSubmit= (data) =>{
-        const formData = new FormData();
 
-<<<<<<< HEAD
-        formData.append('name', data.name);
-        formData.append('cost', data.cost);
-        formData.append('state', data.state);
-        formData.append('special', data.special);
-        formData.append('image', data.image[0]);
-        createFoods(formData)
-            .then(
-                handleDialogForm(),
-                addFood(data),
-            );
-=======
+        const id = currentFood.id;
+        const formData= new FormData();
         formData.append('name', data.name)
         formData.append('cost', data.cost)
         formData.append('state', data.state)
         formData.append('special', data.special)
         formData.append('image', data.image[0])
 
-        axios.post('http://127.0.0.1:8000/api/v1/private/foods',formData)
-            .then(response => {
-                console.log(response.data)
+        axios.put('http://127.0.0.1:8000/api/v1/private/foods/'+id,data)
+            .then(response=>{
+                console.log(response.data.data)
                 getFoods();
-        })
-            .catch(error => {
-                console.log(error);
-            });
-        closeModal();
->>>>>>> 4d841a71fe87fda6bef95185b0470b6b2cd267b7
+                }
+            )
+        closeModalUpdate();
     }
 
 
     return(
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={handleDialogForm}>
+            <Dialog as="div" className="relative z-10" onClose={closeModalUpdate}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -82,7 +70,7 @@ export default function FormFood({closeModal,isOpen,getFoods}){
                                     as="h3"
                                     className="text-lg font-medium leading-6 text-gray-900"
                                 >
-                                    Nuevo Platillo
+                                    Actualizar Platillo
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <form className="flex flex-col m-4" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
@@ -100,28 +88,8 @@ export default function FormFood({closeModal,isOpen,getFoods}){
                                             {...register('cost',{
                                                 required: true
                                             })}
-                                            placeholder=""
+                                            placeholder="0.00"
                                             className="appearance-none p-2 outline-none rounded-md border-2 border-b-gray-500 border-white"
-<<<<<<< HEAD
-                                            type="float"/>
-                                        {errors.cost?.type==="required"&& <p  className="text-red-400 text-sm">* El precio de la comida es requerida</p>}
-                                        <div className="grid grid-cols-2 pt-5">
-                                            <div>
-                                                <label htmlFor="state"
-                                                       className=" inline-flex relative items-center cursor-pointer">
-                                                    <input type="checkbox"
-                                                           {...register('state')}
-                                                           id="state"
-                                                           className="sr-only peer"
-                                                    />
-                                                    <div
-                                                        className="w-11 h-6 bg-gray-200 appearance-none rounded-full peer dark:bg-gray-400 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[3px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                                    <span
-                                                        className="ml-3 text-lg
-                                                           text-gray-500">Disponible</span>
-                                                </label>
-                                            </div>
-=======
                                             type="decimal"/>
                                         {errors.cost?.type==="required"&& <p  className="text-red-400 text-sm">* El precio de la comida es requerida</p>}
                                         <div className="grid grid-cols-2 pt-5">
@@ -140,7 +108,6 @@ export default function FormFood({closeModal,isOpen,getFoods}){
                                                            text-gray-500">Disponible</span>
                                                </label>
                                            </div>
->>>>>>> 4d841a71fe87fda6bef95185b0470b6b2cd267b7
                                             <div>
                                                 <label htmlFor="special"
                                                        className="inline-flex relative items-center cursor-pointer">
@@ -164,7 +131,7 @@ export default function FormFood({closeModal,isOpen,getFoods}){
                                         <div className="mt-6">
                                             <button type="submit"
                                                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                            >Crear
+                                            >Actualizar
                                             </button>
                                         </div>
                                     </form>
@@ -177,4 +144,3 @@ export default function FormFood({closeModal,isOpen,getFoods}){
         </Transition>
     )
 }
-
