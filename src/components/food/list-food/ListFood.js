@@ -1,23 +1,63 @@
 import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi";
 import FormFood from "../form-food/FormFood";
-import {useState} from "react";
+import {useState,useEffect} from "react";
+import {destroyFood, getFoods} from "../../../services/foodServices";
 
-export default function ListFood({food}){
+export default function ListFood(){
     const [isOpen, setIsOpen] = useState(false)
 
-    function closeModal() {
-        setIsOpen(false)
-    }
+    const [foods, setFood] = useState([]);
 
-    const handleDialogForm=()=>{
-        setIsOpen(true)
+    useEffect(()=>{
+        getFoods()
+            .then(data=>{
+            setFood(data);
+            }
+        )
+    },[])
+
+    const addFood =(food)=>{
+        setFood([...foods, food])
     }
 
     const deleteFood=(id)=>{
-        console.log(id);
+        destroyFood(id)
+            .then(response=>{
+                setFood(foods.filter(food => food.id !== id))
+            }
+
+        )
     }
+
     const updateFood=(id)=>{
         console.log(id);
+    }
+
+    const handleDialogForm=()=>{
+        setIsOpen(!isOpen)
+    }
+
+    const pipeState=(state)=>{
+        if(state){
+            return(
+                <div className="text-lg text-center">Disponible</div>
+            )
+        }else{
+            return(
+                <div className="text-lg text-center">No Disponible</div>
+            )
+        }
+    }
+    const pipeSpecial=(special)=>{
+        if(special){
+            return(
+                <div className="text-lg text-center">Especial</div>
+            )
+        }else{
+            return(
+                <div className="text-lg text-center">Nomal</div>
+            )
+        }
     }
 
     return(
@@ -50,7 +90,7 @@ export default function ListFood({food}){
                                     </th>
                                 </tr>
                                 </thead>
-                                {food.map(value=>{
+                                {foods?.map(value=>{
                                     return(
                                         <tbody key={value.id} className="text-sm divide-y divide-gray-100">
                                         <tr>
@@ -61,10 +101,10 @@ export default function ListFood({food}){
                                                 <div className="text-lg text-center">{value.cost}</div>
                                             </td>
                                             <td className="p-2 whitespace-nowrap">
-                                                <div className="text-lg text-center">Disponible</div>
+                                                {pipeState(value.state)}
                                             </td>
                                             <td className="p-2 whitespace-nowrap">
-                                                <div className="text-lg text-center">Normal</div>
+                                                {pipeSpecial(value.special)}
                                             </td>
                                             <td className="text-lg text-center">
                                                 <button
@@ -88,7 +128,7 @@ export default function ListFood({food}){
                     </div>
                 </div>
             </div>
-            {isOpen && <FormFood handleDialogForm={handleDialogForm} closeModal={closeModal} isOpen={isOpen} ></FormFood>}
+            {isOpen && <FormFood handleDialogForm={handleDialogForm} addFood={addFood} isOpen={isOpen} ></FormFood>}
         </section>
     )
 }

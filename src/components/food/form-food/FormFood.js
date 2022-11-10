@@ -1,39 +1,35 @@
 import {useForm} from "react-hook-form";
 import { Dialog, Transition} from "@headlessui/react";
 import { Fragment } from 'react'
-import axios from "axios";
+import {createFoods} from "../../../services/foodServices";
 
-export default function FormFood({closeModal,isOpen, handleDialogForm}){
-    const {register ,formState:{errors} ,watch ,handleSubmit}= useForm({
+export default function FormFood({isOpen, handleDialogForm,addFood}){
+    const {register ,formState:{errors} ,handleSubmit}= useForm({
         defaultValues:{
-            state:false,
-            special:false,
+            state:true,
+            special:true,
         }
     });
 
     const onSubmit= async (data) =>{
         const formData = new FormData();
 
-        formData.append('image', data.image)
-
-        await axios.post('http://127.0.0.1:8000/api/v1/private/foods',formData,
-            {headers: {
-                'Content-Type': 'multipart/form-data'
-            }})
-            .then(response=>{
-                console.log(response.data)
-                handleDialogForm();
-            }).catch(
-                error=>{
-                    console.log(error)
-                }
-            )
+        formData.append('name', data.name);
+        formData.append('cost', data.cost);
+        formData.append('state', data.state);
+        formData.append('special', data.special);
+        formData.append('image', data.image[0]);
+        createFoods(formData)
+            .then(
+                handleDialogForm(),
+                addFood(data),
+            );
     }
 
 
     return(
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={closeModal}>
+            <Dialog as="div" className="relative z-10" onClose={handleDialogForm}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -80,20 +76,42 @@ export default function FormFood({closeModal,isOpen, handleDialogForm}){
                                             {...register('cost',{
                                                 required: true
                                             })}
-                                            placeholder="0.00"
+                                            placeholder=""
                                             className="appearance-none p-2 outline-none rounded-md border-2 border-b-gray-500 border-white"
-                                            type="number"/>
+                                            type="float"/>
                                         {errors.cost?.type==="required"&& <p  className="text-red-400 text-sm">* El precio de la comida es requerida</p>}
-                                        {/*<label className="text-gray-500 text-lg pt-3 ">Disponible</label>*/}
-                                        {/*<input*/}
-                                        {/*    {...register('state')}*/}
-                                        {/*    className="appearance-none p-2 outline-none rounded-md border-2 border-b-blue-500 border-white"*/}
-                                        {/*    type="text"/>*/}
-                                        {/*<label className="text-gray-500 text-lg pt-3 ">Especial</label>*/}
-                                        {/*<input*/}
-                                        {/*    {...register('special')}*/}
-                                        {/*    className="appearance-none p-2 outline-none rounded-md border-2 border-b-blue-500 border-white"*/}
-                                        {/*    type="text"/>*/}
+                                        <div className="grid grid-cols-2 pt-5">
+                                            <div>
+                                                <label htmlFor="state"
+                                                       className=" inline-flex relative items-center cursor-pointer">
+                                                    <input type="checkbox"
+                                                           {...register('state')}
+                                                           id="state"
+                                                           className="sr-only peer"
+                                                    />
+                                                    <div
+                                                        className="w-11 h-6 bg-gray-200 appearance-none rounded-full peer dark:bg-gray-400 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[3px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                                    <span
+                                                        className="ml-3 text-lg
+                                                           text-gray-500">Disponible</span>
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label htmlFor="special"
+                                                       className="inline-flex relative items-center cursor-pointer">
+                                                    <input type="checkbox"
+                                                           {...register('special')}
+                                                           id="special"
+                                                           className="sr-only peer"
+                                                    />
+                                                    <div
+                                                        className="w-11 h-6 bg-gray-200 appearance-none rounded-full peer dark:bg-gray-400 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[3px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                                    <span
+                                                        className="ml-3 text-lg
+                                                           text-gray-500">Especial</span>
+                                                </label>
+                                            </div>
+                                        </div>
                                         <input type="file"
                                                className="pt-5"
                                                {...register('image')}
@@ -114,3 +132,4 @@ export default function FormFood({closeModal,isOpen, handleDialogForm}){
         </Transition>
     )
 }
+

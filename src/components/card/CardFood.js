@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 export default function CardFood({handleCatchId}){
     const [foods,setFoods] = useState([]);
@@ -8,10 +9,13 @@ export default function CardFood({handleCatchId}){
     },[])
 
     const getFoods= async () =>{
-        const response = await fetch('http://127.0.0.1:8000/api/v1/private/foods')
-        const data = await response.json();
-        console.log(data.data)
-        setFoods(data.data);
+        axios('http://127.0.0.1:8000/api/v1/private/foods')
+            .then(response=>{
+                const {data}=response;
+                setFoods(data);
+            })
+
+
     }
 
     return(
