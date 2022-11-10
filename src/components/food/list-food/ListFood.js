@@ -1,8 +1,7 @@
 import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi";
 import FormFood from "../form-food/FormFood";
-<<<<<<< HEAD
-import {useState,useEffect} from "react";
 import {destroyFood, getFoods} from "../../../services/foodServices";
+import {useState, useEffect} from "react";
 
 export default function ListFood(){
     const [isOpen, setIsOpen] = useState(false)
@@ -28,96 +27,13 @@ export default function ListFood(){
             }
 
         )
-=======
-import {useEffect, useState} from "react";
-import axios from "axios";
-import FormFoodUpdate from "../form-food/FormFoodUpdate";
-
-export default function ListFood(){
-    const [isOpen, setIsOpen] = useState(false);
-    const [isOpenEdit, setIsOpenEdit] = useState(false);
-    const [food,setFood]=useState([]);
-    const [currentFood,setCurrentFood]=useState({
-    });
-
-    useEffect(()=>{
-        getFoods();
-    },[])
-
-    const getFoods= () =>{
-      axios('http://127.0.0.1:8000/api/v1/private/foods')
-          .then(response=>{
-              setFood(response.data.data);
-          })
-    }
-
-    const deleteFood=(id)=>{
-        axios.delete('http://127.0.0.1:8000/api/v1/private/foods/'+id)
-            .then(response=>{
-                    setFood(food.filter(value => value.id!==id))
-                    console.log(response)
-                }
-            ).catch(error => {
-            console.log(error);
-        });
-
->>>>>>> 4d841a71fe87fda6bef95185b0470b6b2cd267b7
-    }
-
-    const updateFood=(id)=>{
-        axios('http://127.0.0.1:8000/api/v1/private/foods/'+id)
-            .then(response=>{
-                    setCurrentFood(response.data.data);
-                }
-            )
-        setIsOpenEdit(true)
-    }
 
     const closeModal=()=> {
         setIsOpen(false)
     }
-    const closeModalUpdate =()=> {
-        setIsOpenEdit(false)
-    }
 
     const handleModalForm=()=>{
         setIsOpen(true)
-    }
-
-    const pipeState=(state)=>{
-        if(state){
-            return(
-                <div className="text-lg text-center">
-                    DISPONIBLE
-                </div>
-            )
-        }else{
-            return(
-                <div className="text-lg text-center">
-                    NO DISPONIBLE
-                </div>
-            )
-        }
-
-
-    }
-
-    const pipeSpecial=(special)=>{
-        if(special){
-            return(
-                <div className="text-lg text-center">
-                    ESPECIAL
-                </div>
-            )
-        }else{
-            return(
-                <div className="text-lg text-center">
-                    FRECUENTE
-                </div>
-            )
-        }
-
-
     }
 
     const handleDialogForm=()=>{
@@ -177,32 +93,9 @@ export default function ListFood(){
                                     </th>
                                 </tr>
                                 </thead>
-<<<<<<< HEAD
-                                {foods?.map(value=>{
-                                    return(
-                                        <tbody key={value.id} className="text-sm divide-y divide-gray-100">
-                                        <tr>
-                                            <td className="p-2 whitespace-nowrap">
-                                                <div className="text-lg text-center">{value.name}</div>
-                                            </td>
-                                            <td className="p-2 whitespace-nowrap">
-                                                <div className="text-lg text-center">{value.cost}</div>
-                                            </td>
-                                            <td className="p-2 whitespace-nowrap">
-                                                {pipeState(value.state)}
-                                            </td>
-                                            <td className="p-2 whitespace-nowrap">
-                                                {pipeSpecial(value.special)}
-                                            </td>
-                                            <td className="text-lg text-center">
-                                                <button
-                                                    onClick={()=>updateFood(value.id)}
-                                                    className="bg-blue-500 hover:bg-blue-700 mx-2 text-white font-bold py-1 px-2 border border-blue-500 rounded text-2xl">
-                                                    <HiOutlinePencilAlt/>
-=======
                                 <tbody className="text-sm divide-y divide-gray-100">
-                                {food.length>0?(
-                                    food.map(value=>{
+                                {foods.length > 0 ? (
+                                    foods.map(value=>{
                                             return(
                                                 <tr key={value.id}>
                                                     <td className="p-2 whitespace-nowrap">
@@ -219,10 +112,9 @@ export default function ListFood(){
                                                     </td>
                                                     <td className="text-lg text-center">
                                                         <button
-                                                            onClick={()=>updateFood(value.id)}
+                                                            onClick={()=>console.log(value.id)}
                                                             className="bg-blue-500 hover:bg-blue-700 mx-2 text-white font-bold py-1 px-2 border border-blue-500 rounded text-2xl">
                                                             <HiOutlinePencilAlt/>
->>>>>>> 4d841a71fe87fda6bef95185b0470b6b2cd267b7
 
                                                         </button>
                                                         <button
@@ -245,12 +137,7 @@ export default function ListFood(){
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-            {isOpen && <FormFood handleDialogForm={handleDialogForm} addFood={addFood} isOpen={isOpen} ></FormFood>}
-=======
-            {isOpen && <FormFood getFoods={getFoods} closeModal={closeModal} isOpen={isOpen} ></FormFood>}
-            {isOpenEdit && <FormFoodUpdate getFoods={getFoods} currentFood={currentFood} closeModalUpdate={closeModalUpdate} isOpen={isOpenEdit} ></FormFoodUpdate>}
->>>>>>> 4d841a71fe87fda6bef95185b0470b6b2cd267b7
+            {isOpen && <FormFood getFoods={getFoods} closeModal={closeModal} handleDialogForm={handleDialogForm} isOpen={isOpen} ></FormFood>}
         </section>
     )
 }

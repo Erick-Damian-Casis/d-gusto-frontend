@@ -3,24 +3,13 @@ import { Dialog, Transition} from "@headlessui/react";
 import { Fragment } from 'react'
 import {createFoods} from "../../../services/foodServices";
 
-<<<<<<< HEAD
+
 export default function FormFood({isOpen, handleDialogForm,addFood}){
-    const {register ,formState:{errors} ,handleSubmit}= useForm({
-        defaultValues:{
-            state:true,
-            special:true,
-        }
-    });
-=======
-export default function FormFood({closeModal,isOpen,getFoods}){
->>>>>>> 4d841a71fe87fda6bef95185b0470b6b2cd267b7
 
     const {register ,formState:{errors} ,handleSubmit}= useForm({});
 
     const onSubmit= (data) =>{
         const formData = new FormData();
-
-<<<<<<< HEAD
         formData.append('name', data.name);
         formData.append('cost', data.cost);
         formData.append('state', data.state);
@@ -31,23 +20,6 @@ export default function FormFood({closeModal,isOpen,getFoods}){
                 handleDialogForm(),
                 addFood(data),
             );
-=======
-        formData.append('name', data.name)
-        formData.append('cost', data.cost)
-        formData.append('state', data.state)
-        formData.append('special', data.special)
-        formData.append('image', data.image[0])
-
-        axios.post('http://127.0.0.1:8000/api/v1/private/foods',formData)
-            .then(response => {
-                console.log(response.data)
-                getFoods();
-        })
-            .catch(error => {
-                console.log(error);
-            });
-        closeModal();
->>>>>>> 4d841a71fe87fda6bef95185b0470b6b2cd267b7
     }
 
 
@@ -88,7 +60,6 @@ export default function FormFood({closeModal,isOpen,getFoods}){
                                     <form className="flex flex-col m-4" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
                                         <label className="text-gray-500 text-lg pt-3 ">Nombre</label>
                                         <input
-                                            placeholder="ej. Hamburguesa"
                                             {...register('name',{
                                                 required: true
                                             })}
@@ -102,8 +73,7 @@ export default function FormFood({closeModal,isOpen,getFoods}){
                                             })}
                                             placeholder=""
                                             className="appearance-none p-2 outline-none rounded-md border-2 border-b-gray-500 border-white"
-<<<<<<< HEAD
-                                            type="float"/>
+                                            type="decimal"/>
                                         {errors.cost?.type==="required"&& <p  className="text-red-400 text-sm">* El precio de la comida es requerida</p>}
                                         <div className="grid grid-cols-2 pt-5">
                                             <div>
@@ -121,26 +91,6 @@ export default function FormFood({closeModal,isOpen,getFoods}){
                                                            text-gray-500">Disponible</span>
                                                 </label>
                                             </div>
-=======
-                                            type="decimal"/>
-                                        {errors.cost?.type==="required"&& <p  className="text-red-400 text-sm">* El precio de la comida es requerida</p>}
-                                        <div className="grid grid-cols-2 pt-5">
-                                           <div>
-                                               <label htmlFor="state"
-                                                      className=" inline-flex relative items-center cursor-pointer">
-                                                   <input type="checkbox"
-                                                          {...register('state')}
-                                                          id="state"
-                                                          className="sr-only peer"
-                                                   />
-                                                       <div
-                                                           className="w-11 h-6 bg-gray-200 appearance-none rounded-full peer dark:bg-gray-400 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[3px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                                       <span
-                                                           className="ml-3 text-lg
-                                                           text-gray-500">Disponible</span>
-                                               </label>
-                                           </div>
->>>>>>> 4d841a71fe87fda6bef95185b0470b6b2cd267b7
                                             <div>
                                                 <label htmlFor="special"
                                                        className="inline-flex relative items-center cursor-pointer">
