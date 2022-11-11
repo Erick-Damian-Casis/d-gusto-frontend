@@ -1,6 +1,6 @@
 import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi";
 import FormFood from "../form-food/FormFood";
-import {destroyFood, getFoods} from "../../../services/foodServices";
+import {destroyFood, getFoods} from "../../../services/FoodServices";
 import {useState, useEffect} from "react";
 
 export default function ListFood(){
@@ -25,8 +25,8 @@ export default function ListFood(){
             .then(response=>{
                 setFood(foods.filter(food => food.id !== id))
             }
-
         )
+    }
 
     const closeModal=()=> {
         setIsOpen(false)
@@ -137,7 +137,7 @@ export default function ListFood(){
                     </div>
                 </div>
             </div>
-            {isOpen && <FormFood getFoods={getFoods} closeModal={closeModal} handleDialogForm={handleDialogForm} isOpen={isOpen} ></FormFood>}
+            {isOpen && <FormFood getFoods={getFoods} closeModal={closeModal} addFood={addFood} handleDialogForm={handleDialogForm} isOpen={isOpen} ></FormFood>}
         </section>
     )
 }

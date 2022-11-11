@@ -1,7 +1,7 @@
 import {useForm} from "react-hook-form";
 import { Dialog, Transition} from "@headlessui/react";
 import { Fragment } from 'react'
-import {createFoods} from "../../../services/foodServices";
+import {createFoods} from "../../../services/FoodServices";
 
 
 export default function FormFood({isOpen, handleDialogForm,addFood}){

@@ -10,6 +10,15 @@ export const getFoods =()=>{
             });
 }
 
+export const getFood =(id)=>{
+    return axios(API_URL+id)
+        .then(response=>{
+            return response.data.data;
+        }).catch(error=>{
+            console.log(error)
+        });
+}
+
 export const createFoods =(data)=>{
     return axios.post(API_URL,data)
         .then(response=>{
@@ -18,6 +27,16 @@ export const createFoods =(data)=>{
         error=>{
             console.log(error)
         });
+}
+
+export const updateFood =(id, food)=>{
+    return axios.put(API_URL+id,food)
+        .then(response=>{
+            console.log(response.data)
+        }).catch(
+            error=>{
+                console.log(error)
+            });
 }
 
 export const destroyFood =(id)=>{

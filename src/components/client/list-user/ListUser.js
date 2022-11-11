@@ -14,24 +14,25 @@ export default function ListUser(){
                                     <th className="p-2 whitespace-nowrap">
                                         <div className="font-semibold text-center">TELEFONO</div>
                                     </th>
+                                    <th className="p-2 whitespace-nowrap">
+                                        <div className="font-semibold text-center">CORREO</div>
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody className="text-sm divide-y divide-gray-100">
                                 <tr>
                                     <td className="p-5 whitespace-nowrap">
                                         <div className="flex items-center">
-                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img
-                                                className="rounded-full"
-                                                src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                                width="40" height="40" alt="Alex Shatov"/></div>
-                                            <div className="text-lg">Alex Shatov</div>
+                                            <div className="text-lg">Erick Damian</div>
                                         </div>
                                     </td>
                                     <td className="p-2 whitespace-nowrap">
                                         <div className="text-lg text-center">0979005493</div>
                                     </td>
+                                    <td className="p-2 whitespace-nowrap">
+                                        <div className="text-lg text-center">ejc.damian@yavirac.edu.ec</div>
+                                    </td>
                                 </tr>
-
                                 </tbody>
                             </table>
                         </div>
