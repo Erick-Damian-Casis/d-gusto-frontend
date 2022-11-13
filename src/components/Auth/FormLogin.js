@@ -1,10 +1,15 @@
 import {useForm} from "react-hook-form";
+import {login} from "../../services/AuthService";
 
 export default function FormLogin({handleIsLogin}){
     const {register, formState:{errors}, handleSubmit}=useForm();
 
     const onSubmit=(data)=>{
-        console.log(data);
+        login(data)
+            .then(response=>{
+                console.log(response);
+            })
+
     }
 
     return(

@@ -11,7 +11,7 @@ export const login=(data)=>{
         })
 }
 
-export const register=(data)=>{
+export const createRegister=(data)=>{
     return axios.post(URL_API+'register', data)
         .then(response=>{
             console.log(response)
