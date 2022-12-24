@@ -1,14 +1,13 @@
 import {useForm} from "react-hook-form";
-import {createRegister} from "../../services/AuthService";
+import {registerUser} from "../../services/AuthService";
 
-export default function FormRegister({handleIsLogin}){
+export default function FormRegister({handleIsLogin, isLogin}){
     const { register, handleSubmit, formState:{errors} }=useForm();
 
     const onSubmit=(data)=>{
-        createRegister(data)
-            .then(response=>{
-                console.log(response)
-            })
+        registerUser(data).then(response=>{
+            console.log(response)
+        })
     }
 
     return(

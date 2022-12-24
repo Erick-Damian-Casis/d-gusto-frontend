@@ -1,15 +1,29 @@
 import {useForm} from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
 import {login} from "../../services/AuthService";
+import {setToken} from "../../services/PrivateServices";
+
+
 
 export default function FormLogin({handleIsLogin}){
     const {register, formState:{errors}, handleSubmit}=useForm();
+    const navigate = useNavigate();
 
-    const onSubmit=(data)=>{
-        login(data)
-            .then(response=>{
-                console.log(response);
-            })
 
+    const onSubmit = (data) =>{
+        login(data).then(response=>{
+            window.localStorage.setItem('loggedUser', JSON.stringify(response.token))
+            setToken(response.token)
+            redirect(response.data.role[0])
+        }).catch(error=>console.log(error))
+    }
+    const redirect=(user)=>{
+        if(user === 'client'){
+            navigate('/home')
+        }else{
+            navigate('/foods')
+        }
     }
 
     return(

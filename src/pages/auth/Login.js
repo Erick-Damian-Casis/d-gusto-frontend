@@ -1,8 +1,8 @@
 import login from "../../assets/login.jpg"
 
 // Components
-import FormLogin from "../../components/Auth/FormLogin";
-import FormRegister from "../../components/Auth/FormRegister";
+import FormLogin from "../../components/auth/FormLogin";
+import FormRegister from "../../components/auth/FormRegister";
 
 import {useState} from "react";
 export default function Login(){
@@ -18,7 +18,10 @@ export default function Login(){
                 <img src={login} className="h-full w-full object-cover object-center lg:h-full lg:w-full" alt=""/>
             </div>
             <div className="flex w-1/2 justify-center items-center bg-white">
-                { isLogin === true ? <FormLogin handleIsLogin={handleIsLogin}/> : <FormRegister handleIsLogin={handleIsLogin}/> }
+                { isLogin ?
+                    <FormLogin handleIsLogin={handleIsLogin}/> :
+                    <FormRegister handleIsLogin={handleIsLogin} isLogin={handleIsLogin}/>
+                }
             </div>
         </div>)
 }

@@ -1,25 +1,34 @@
-import CardFood from "../../../components/card/CardFood";
-import FormOrder from "../../../components/order/form-order/FormOrder";
-import {useState} from "react";
+import CardFood from "../../../components/client/card/CardFood";
+import FormOrder from "../../../components/client/form-order/FormOrder";
+import {useState,useEffect} from "react";
 import NavBar from "../../../components/nav-bar/Navbar";
+import {setToken} from "../../../services/PrivateServices";
 
 export default function Home(){
-    const [foodId, setFoodId] = useState();
-    const [isOpen, setIsOpen] = useState(false)
 
-    function closeModal() {
-        setIsOpen(false)
+    const [foodId, setFoodId] = useState();
+    const [modalOrder, setModalOrder] = useState(false)
+
+    useEffect(()=>{
+        const loggedUser = window.localStorage?.getItem('loggedUser')
+        const token = JSON.parse(loggedUser)
+        setToken(token)
+    },[])
+
+
+    function handleModal() {
+        setModalOrder(!modalOrder)
     }
 
     const handleCatchId =(id)=>{
         setFoodId(id);
-        setIsOpen(true)
+        setModalOrder(!modalOrder)
         console.log(id)
     }
 
     return(<div>
         <NavBar></NavBar>
-        <CardFood handleCatchId={handleCatchId} ></CardFood>
-        {isOpen && <FormOrder foodId={foodId} closeModal={closeModal} isOpen={isOpen} ></FormOrder>}
+        <CardFood handleCatchId={handleCatchId}/>
+        {modalOrder && <FormOrder foodId={foodId} closeModal={handleModal} />}
     </div>)
 }
