@@ -50,6 +50,10 @@ export default function FormOrder({foodId,closeModal}){
                             className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     >Enviar
                     </button>
+                    <button onClick={()=>closeModal()}
+                            className=" mx-2 inline-flex justify-center rounded-md border border-transparentred-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                    >Cancelar
+                    </button>
                 </div>
             </form>
         </div>
